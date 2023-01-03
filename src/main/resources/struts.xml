@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+
+	<constant name="struts.devMode" value="true" />
+
+		<package name="DEV" extends="struts-default" strict-method-invocation="false">
+			<action name="*Exame" class="br.com.treino.action.ExameAction" method="{1}">
+				<result name="listar">listaExames.jsp</result>
+				<result name="alterar">exame.jsp</result>
+				<result name="pesquisar">listaExames.jsp</result>
+				<result name="success" type="redirectAction">listarExame</result>
+			</action>
+		</package>
+
+</struts>
