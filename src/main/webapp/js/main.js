@@ -28,7 +28,7 @@ $('.to-check').on('input', function(){
 
 function compararDatas() {
     
-    var dataInserida = Date.parse($('#data-exame').val());
+    var dataInserida = Date.parse($(']').val());
     
     var hoje = new Date();
     if (isNaN(dataInserida) || dataInserida < hoje.getTime()) {

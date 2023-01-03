@@ -11,7 +11,6 @@ public class Exame {
 	private Date dataExame;
 	private String observacaoResultado;
 	
-	
 	public Exame() {
 		super();
 	}
@@ -61,12 +60,9 @@ public class Exame {
 		return formato.format(getDataExame());
 	}
 	
-	
 	@Override
 	public String toString() {
 		return "Exame [codAgendamento=" + codAgendamento + ", paciente=" + paciente + ", exame=" + exame
 				+ ", dataExame=" + dataExame + ", observacaoResultado=" + observacaoResultado + "]";
 	}
-	
-	
 }

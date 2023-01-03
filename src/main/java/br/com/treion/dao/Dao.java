@@ -13,15 +13,20 @@ public class Dao {
 	}
 
 	public void conectar() {
-		StringBuilder url = new StringBuilder("jdbc:h2:mem:treino;");
-		
-		if(bancoNaoInicializado) {
+		StringBuilder url = new StringBuilder("jdbc:h2:mem:treino;").append("DB_CLOSE_DELAY=-1;")
+				.append("DATABASE_TO_UPPER=false;");
+
+		if (bancoNaoInicializado) {
 			url.append("INIT=runscript from 'classpath:Inicializar-H2.sql';");
+			bancoNaoInicializado = false;
 		}
+
 		try {
-			conexao =  DriverManager.getConnection(url.toString());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			Class.forName("org.h2.Driver");
+			conexao = DriverManager.getConnection(url.toString());
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}

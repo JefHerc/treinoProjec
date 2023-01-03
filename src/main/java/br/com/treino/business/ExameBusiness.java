@@ -44,7 +44,7 @@ public class ExameBusiness {
 	}
 
 	public List<Exame> pesquisar(String parametro) {
-		return dao.pesqisarExames(parametro);		
+		return dao.pesquisarExames(parametro);		
 	}
 	
 	public boolean validarData(Exame exame) throws Exception {

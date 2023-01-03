@@ -31,7 +31,7 @@ public class ExameDao extends Dao {
 
 	public List<Exame> listarExames() {
 		List<Exame> exames = new ArrayList<>();
-		String sql = "SELECT * FROM exame";
+		String sql = "SELECT * FROM exame ORDER BY paciente";
 
 		try (Connection con = getConexao(); PreparedStatement pstm = con.prepareStatement(sql)) {
 			ResultSet rst = pstm.executeQuery();
@@ -50,10 +50,10 @@ public class ExameDao extends Dao {
 		String sql = "SELECT * FROM exame WHERE cod_agendamento = ?";
 		Dao dao = new Dao();
 		Exame exame = null;
-		try(Connection con = dao.getConexao(); PreparedStatement pstm = con.prepareStatement(sql)){
+		try (Connection con = dao.getConexao(); PreparedStatement pstm = con.prepareStatement(sql)) {
 			pstm.setInt(1, codExame);
 			ResultSet rst = pstm.executeQuery();
-			if(rst.next()) {
+			if (rst.next()) {
 				int cod = rst.getInt("cod_agendamento");
 				String paciente = rst.getString("paciente");
 				String nomeExame = rst.getString("exame");
@@ -62,55 +62,21 @@ public class ExameDao extends Dao {
 				exame = new Exame(cod, paciente, nomeExame, exameData, obs);
 
 			}
-	
-		}catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
 		return exame;
 	}
 
 	public void excluirExame(int codExame) {
 		String sql = "DELETE FROM exame WHERE cod_agendamento = ?";
 		Dao dao = new Dao();
-		try(Connection con = dao.getConexao(); PreparedStatement pstm = con.prepareStatement(sql)){
+		try (Connection con = dao.getConexao(); PreparedStatement pstm = con.prepareStatement(sql)) {
 			pstm.setInt(1, codExame);
 			pstm.execute();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 		}
-	}
-
-	public static void main(String[] args) {
-		List<Exame> exames = new ArrayList<>();
-		String sql = "SELECT * FROM exame";
-		Dao dao = new Dao();
-		try (Connection con = dao.getConexao(); PreparedStatement pstm = con.prepareStatement(sql)) {
-			ResultSet rst = pstm.executeQuery();
-			while (rst.next()) {
-				exames.add(
-						new Exame(rst.getInt(1), rst.getString(2), rst.getString(3), rst.getDate(4), rst.getString(5)));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		System.out.println(exames);
-
-	}
-
-	public java.sql.Date convertToSQLDate(Date date) {
-		java.sql.Date mySQLDate = new java.sql.Date(date.getTime());
-		return mySQLDate;
-	}
-
-	public java.util.Date convertSQLDateToJavaDate(java.sql.Date date) {
-		java.util.Date myJavaDate = null;
-		if (date != null) {
-			myJavaDate = new java.util.Date(date.getTime());
-		}
-		return myJavaDate;
 	}
 
 	public void alterarExame(Exame exame) {
@@ -126,15 +92,15 @@ public class ExameDao extends Dao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 		
+		}
 	}
-
-	public List<Exame> pesqisarExames(String parametro) {
+	
+	public List<Exame> pesquisarExames(String parametro) {
 		List<Exame> exames = new ArrayList<>();
-		String query = "SELECT * FROM exame WHERE paciente LIKE ? ORDER BY paciente";
+		String query = "SELECT * FROM exame WHERE LOWER(paciente) LIKE LOWER(?) ORDER BY paciente";
 		Dao dao = new Dao();
 		try (Connection con = getConexao(); PreparedStatement pstm = con.prepareStatement(query)) {
-			pstm.setString(1, "%"+parametro+"%");
+			pstm.setString(1, "%" + parametro + "%");
 			pstm.execute();
 			ResultSet rst = pstm.getResultSet();
 
@@ -147,7 +113,18 @@ public class ExameDao extends Dao {
 			e.printStackTrace();
 		}
 		return exames;
+	}
+	
+	public java.sql.Date convertToSQLDate(Date date) {
+		java.sql.Date mySQLDate = new java.sql.Date(date.getTime());
+		return mySQLDate;
+	}
 
-
+	public java.util.Date convertSQLDateToJavaDate(java.sql.Date date) {
+		java.util.Date myJavaDate = null;
+		if (date != null) {
+			myJavaDate = new java.util.Date(date.getTime());
+		}
+		return myJavaDate;
 	}
 }
