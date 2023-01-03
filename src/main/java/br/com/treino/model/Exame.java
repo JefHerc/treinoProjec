@@ -55,10 +55,15 @@ public class Exame {
 		this.observacaoResultado = observacaoResultado;
 	}
 	
-	public String getDataFormatada() {
-		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-		return formato.format(getDataExame());
-	}
+	 public String getDataFormatadaBR() {
+	        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+	        return formato.format(getDataExame());
+	    }
+
+	    public String getDataFormatadaENG() {
+	        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+	        return formato.format(getDataExame());
+	    }
 	
 	@Override
 	public String toString() {

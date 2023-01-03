@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
-<s:if test="exame==null || exame.codAgendamento==null">
+<s:if test="exame.codAgendamento==null">
 	<s:set var="title" value="%{'Adicionar novo Exame'}" />
 </s:if>
 <s:else>
@@ -27,7 +27,7 @@
 			</h1>
 
 			<form action="salvarExame" onsubmit="return validarForm()" class="needs-validation" novalidate>
-				<s:if test="exame != null || exame.codAgendamento != null">
+				<s:if test="exame.codAgendamento != null">
 					<div class="mb-3">
 						<label class="form-label">Código agendamento</label>
 						<s:textfield class="form-control" name="exame.codAgendamento" readonly="true" />
@@ -49,9 +49,14 @@
 				</div>
 				<div class="mb-3">
 					<label class="form-label">Data</label>
-
-					<s:textfield type="text" maxlength="10" class="form-control to-check" id="data-exame"
+					<s:if test="exame.codAgendamento==null">
+						<s:textfield type="date" maxlength="10" class="form-control to-check" id="data-exame"
 						name="exame.dataExame" />
+					</s:if>
+					<s:else>
+						<s:textfield type="date" maxlength="10" class="form-control to-check" id="data-exame"
+						name="exame.dataExame" value="%{exame.dataFormatadaENG}"/>
+					</s:else>
 					<div class="invalid-feedback">
 						A data deve ser maior que a data atual.
 					</div>

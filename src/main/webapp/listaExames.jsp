@@ -53,7 +53,7 @@
 							<td>${codAgendamento}</td>
 							<td>${paciente}</td>
 							<td>${exame}</td>
-							<td>${dataFormatada}</td>
+							<td>${dataFormatadaBR}</td>
 							<td>
 								<s:property value="#exame.observacaoResultado" />
 							</td>

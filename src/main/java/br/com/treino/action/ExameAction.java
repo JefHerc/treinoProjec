@@ -24,11 +24,12 @@ public class ExameAction extends ActionSupport {
 		
 		try {
 			exameBusiness.salvarAgendamento(exame);
+			return SUCCESS;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return SUCCESS;
+		return INPUT;
 	}
 	
 	public String alterar() {
