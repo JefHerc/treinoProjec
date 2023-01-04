@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import br.com.treino.model.Exame;
@@ -19,7 +19,7 @@ public class ExameDao extends Dao {
 			pstm.setString(1, exame.getPaciente());
 			pstm.setString(2, exame.getExame());
 			pstm.setString(3, exame.getObservacaoResultado());
-			pstm.setDate(4, convertToSQLDate(exame.getDataExame()));
+			pstm.setObject(4, exame.getDataExame());
 
 			pstm.execute();
 
@@ -37,7 +37,7 @@ public class ExameDao extends Dao {
 			ResultSet rst = pstm.executeQuery();
 			while (rst.next()) {
 				exames.add(new Exame(rst.getInt(1), rst.getString(2), rst.getString(3),
-						convertSQLDateToJavaDate(rst.getDate(4)), rst.getString(5)));
+						rst.getObject(4, LocalDate.class), rst.getString(5)));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -48,16 +48,16 @@ public class ExameDao extends Dao {
 
 	public Exame carregarDadosExame(int codExame) {
 		String sql = "SELECT * FROM exame WHERE cod_agendamento = ?";
-		Dao dao = new Dao();
 		Exame exame = null;
-		try (Connection con = dao.getConexao(); PreparedStatement pstm = con.prepareStatement(sql)) {
+		try (Connection con = getConexao(); PreparedStatement pstm = con.prepareStatement(sql)) {
 			pstm.setInt(1, codExame);
 			ResultSet rst = pstm.executeQuery();
 			if (rst.next()) {
 				int cod = rst.getInt("cod_agendamento");
 				String paciente = rst.getString("paciente");
 				String nomeExame = rst.getString("exame");
-				Date exameData = convertSQLDateToJavaDate(rst.getDate("data_exame"));
+				LocalDate exameData = rst.getObject("data_exame", LocalDate.class);
+//						();
 				String obs = rst.getString("obersevacao_resultado");
 				exame = new Exame(cod, paciente, nomeExame, exameData, obs);
 
@@ -70,8 +70,7 @@ public class ExameDao extends Dao {
 
 	public void excluirExame(int codExame) {
 		String sql = "DELETE FROM exame WHERE cod_agendamento = ?";
-		Dao dao = new Dao();
-		try (Connection con = dao.getConexao(); PreparedStatement pstm = con.prepareStatement(sql)) {
+		try (Connection con = getConexao(); PreparedStatement pstm = con.prepareStatement(sql)) {
 			pstm.setInt(1, codExame);
 			pstm.execute();
 		} catch (Exception e) {
@@ -81,11 +80,10 @@ public class ExameDao extends Dao {
 
 	public void alterarExame(Exame exame) {
 		String sql = "UPDATE exame SET paciente = ?, exame = ?, data_exame = ?, obersevacao_resultado = ? WHERE cod_agendamento = ?";
-		Dao dao = new Dao();
-		try (Connection con = dao.getConexao(); PreparedStatement pstm = con.prepareStatement(sql)) {
+		try (Connection con = getConexao(); PreparedStatement pstm = con.prepareStatement(sql)) {
 			pstm.setString(1, exame.getPaciente());
 			pstm.setString(2, exame.getExame());
-			pstm.setDate(3, convertToSQLDate(exame.getDataExame()));
+			pstm.setObject(3, exame.getDataExame());
 			pstm.setString(4, exame.getObservacaoResultado());
 			pstm.setInt(5, exame.getCodAgendamento());
 			pstm.execute();
@@ -98,7 +96,6 @@ public class ExameDao extends Dao {
 	public List<Exame> pesquisarExames(String parametro) {
 		List<Exame> exames = new ArrayList<>();
 		String query = "SELECT * FROM exame WHERE LOWER(paciente) LIKE LOWER(?) ORDER BY paciente";
-		Dao dao = new Dao();
 		try (Connection con = getConexao(); PreparedStatement pstm = con.prepareStatement(query)) {
 			pstm.setString(1, "%" + parametro + "%");
 			pstm.execute();
@@ -106,7 +103,7 @@ public class ExameDao extends Dao {
 
 			while (rst.next()) {
 				exames.add(new Exame(rst.getInt(1), rst.getString(2), rst.getString(3),
-						convertSQLDateToJavaDate(rst.getDate(4)), rst.getString(5)));
+						rst.getObject(4, LocalDate.class), rst.getString(5)));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -115,16 +112,16 @@ public class ExameDao extends Dao {
 		return exames;
 	}
 	
-	public java.sql.Date convertToSQLDate(Date date) {
-		java.sql.Date mySQLDate = new java.sql.Date(date.getTime());
-		return mySQLDate;
-	}
-
-	public java.util.Date convertSQLDateToJavaDate(java.sql.Date date) {
-		java.util.Date myJavaDate = null;
-		if (date != null) {
-			myJavaDate = new java.util.Date(date.getTime());
-		}
-		return myJavaDate;
-	}
+//	public Date convertToSQLDate(LocalDate date) {
+//		java.sql.Date mySQLDate = new java.sql.Date(date.getTime());
+//		return mySQLDate;
+//	}
+//
+//	public Date convertSQLDateToJavaDate(Date date) {
+//		Date myJavaDate = null;
+//		if (date != null) {
+//			myJavaDate = new java.util.Date(date.getTime());
+//		}
+//		return myJavaDate;
+//	}
 }

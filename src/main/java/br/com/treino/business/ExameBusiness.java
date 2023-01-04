@@ -1,6 +1,6 @@
 package br.com.treino.business;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import br.com.treino.model.Exame;
@@ -48,8 +48,8 @@ public class ExameBusiness {
 	}
 	
 	public boolean validarData(Exame exame) throws Exception {
-		Date dataAtual = new Date();
-		if (exame.getDataExame().compareTo(dataAtual) > 0) {
+		LocalDate dataAtual = LocalDate.now();
+		if (exame.getDataExame().isAfter(dataAtual)) {
 			return true;
 		} else {
 			throw new Exception("DATA DEVE SER MAIOR");

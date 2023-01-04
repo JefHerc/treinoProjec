@@ -1,7 +1,7 @@
 function validarForm(){
     validarPaciente()
     validarExame()
-    compararDatas()
+    // compararDatas()
     var validar = $('.to-check').hasClass('is-invalid');
     if (validar) {
         return false;

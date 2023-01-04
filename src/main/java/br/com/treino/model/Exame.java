@@ -1,21 +1,21 @@
 package br.com.treino.model;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Exame {
 
 	private Integer codAgendamento;
 	private String paciente;
 	private String exame;
-	private Date dataExame;
+	private LocalDate dataExame;
 	private String observacaoResultado;
 	
 	public Exame() {
 		super();
 	}
 	
-	public Exame(Integer codAgendamento, String paciente, String exame, Date dataExame, String observacaoResultado) {
+	public Exame(Integer codAgendamento, String paciente, String exame, LocalDate dataExame, String observacaoResultado) {
 		super();
 		this.codAgendamento = codAgendamento;
 		this.paciente = paciente;
@@ -42,10 +42,10 @@ public class Exame {
 	public void setExame(String exame) {
 		this.exame = exame;
 	}
-	public Date getDataExame() {
+	public LocalDate getDataExame() {
 		return dataExame;
 	}
-	public void setDataExame(Date dataExame) {
+	public void setDataExame(LocalDate dataExame) {
 		this.dataExame = dataExame;
 	}
 	public String getObservacaoResultado() {
@@ -56,14 +56,10 @@ public class Exame {
 	}
 	
 	 public String getDataFormatadaBR() {
-	        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
-	        return formato.format(getDataExame());
+	    	DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	        return formatador.format(getDataExame());
 	    }
 
-	    public String getDataFormatadaENG() {
-	        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-	        return formato.format(getDataExame());
-	    }
 	
 	@Override
 	public String toString() {

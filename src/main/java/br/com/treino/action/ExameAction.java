@@ -10,6 +10,11 @@ import br.com.treino.model.Exame;
 
 public class ExameAction extends ActionSupport {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private ExameBusiness exameBusiness = new ExameBusiness();
 	private Exame exame = new Exame();
 	private List<Exame> exames = new ArrayList<>();

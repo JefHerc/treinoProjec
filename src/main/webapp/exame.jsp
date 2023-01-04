@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
-<s:if test="exame.codAgendamento==null">
-	<s:set var="title" value="%{'Adicionar novo Exame'}" />
+<s:if test="exame.codAgendamento != null">
+	<s:set var="title" value="%{'Alterar Exame'}" />
 </s:if>
 <s:else>
-	<s:set var="title" value="%{'Alterar Exame'}" />
+	<s:set var="title" value="%{'Adicionar novo Exame'}" />
 </s:else>
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 
 	<head>
 		<meta charset="UTF-8">
@@ -49,13 +49,13 @@
 				</div>
 				<div class="mb-3">
 					<label class="form-label">Data</label>
-					<s:if test="exame.codAgendamento==null">
-						<s:textfield type="date" maxlength="10" class="form-control to-check" id="data-exame"
+					<s:if test="exame.codAgendamento == null">
+						<s:textfield type="text" maxlength="10" class="form-control to-check" id="data-exame"
 						name="exame.dataExame" />
 					</s:if>
 					<s:else>
-						<s:textfield type="date" maxlength="10" class="form-control to-check" id="data-exame"
-						name="exame.dataExame" value="%{exame.dataFormatadaENG}"/>
+						<s:textfield  maxlength="10" class="form-control to-check" id="data-exame"
+						name="exame.dataExame" value="%{exame.dataFormatadaBR}"/>
 					</s:else>
 					<div class="invalid-feedback">
 						A data deve ser maior que a data atual.

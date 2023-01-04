@@ -13,7 +13,13 @@
 				<result name="alterar">exame.jsp</result>
 				<result name="pesquisar">listaExames.jsp</result>
 				<result name="success" type="redirectAction">listarExame</result>
+				<result name="input" >erro.jsp</result>
 			</action>
+			<action name="testar" class="br.com.treino.action.TesteAction" >
+				<result name="success" >datapage.jsp</result>
+				<result name="input" >erro.jsp</result>
+			</action>
+			
 		</package>
 
 </struts>
