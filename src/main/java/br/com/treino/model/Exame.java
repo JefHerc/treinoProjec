@@ -1,7 +1,9 @@
 package br.com.treino.model;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class Exame {
 
@@ -45,8 +47,8 @@ public class Exame {
 	public LocalDate getDataExame() {
 		return dataExame;
 	}
-	public void setDataExame(LocalDate dataExame) {
-		this.dataExame = dataExame;
+	public void setDataExame(Date dataExame) {
+		this.dataExame = dataExame.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 	}
 	public String getObservacaoResultado() {
 		return observacaoResultado;
@@ -56,9 +58,15 @@ public class Exame {
 	}
 	
 	 public String getDataFormatadaBR() {
-	    	DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	    	DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	        return formatador.format(getDataExame());
 	    }
+	 
+	 public String dataFormatadaENG() {
+	    	DateTimeFormatter formatador = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	        return formatador.format(getDataExame());
+	    }
+
 
 	
 	@Override
